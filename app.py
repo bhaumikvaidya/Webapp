@@ -6,7 +6,7 @@ from face_swap import face_swap_dlib,face_swap_mediapipe
 import os
 
 app = Flask(__name__)
-app.secret_key = "NF484j33hSDDJFH9s83nb"
+
 
 
 
@@ -19,11 +19,11 @@ def homepage():
         source.save(f"{os.getcwd()}\\static\input\{source.filename}")
         destination.save(f"{os.getcwd()}\\static\input\{destination.filename}")
       
-        print("Saved Input Files")
+        #print("Saved Input Files")
         image1= f"{os.getcwd()}\\static\\input\\{source.filename}"
         image2 = f"{os.getcwd()}\\static\\input\\{destination.filename}"
         face_swap_mediapipe(image1,image2)
-        print("Done Swapping")
+        #print("Done Swapping")
         #Give Back Image
         source_facepic = url_for('static', filename=f"input/{source.filename}")
         destination_facepic = url_for('static', filename=f"input/{destination.filename}")
@@ -34,9 +34,9 @@ def homepage():
 
 @app.route("/download/<filename>")
 def download(filename):
-	print("Download request recieved")
+	#print("Download request recieved")
 	return send_file(f"{os.getcwd()}\\static\\output\\{filename}.jpg", as_attachment=True, mimetype="image/jpeg")
     
 if __name__ == "__main__":
-    print('Starting Python Flask Server')
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
